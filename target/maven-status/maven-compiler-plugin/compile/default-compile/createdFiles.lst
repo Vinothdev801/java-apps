@@ -1,0 +1,4 @@
+com\av\regapp\Reg.class
+com\av\regapp\RegDAO.class
+com\av\regapp\RegController.class
+com\av\regapp\RegServices.class
