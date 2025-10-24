@@ -1,6 +1,7 @@
 package com.av.regapp;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,11 +37,15 @@ public class RegServices extends HttpServlet{
 
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
+        System.out.println(resultSet);
 
         while (resultSet.next()) {
             if(resultSet.getString("user_name") == username && password == resultSet.getString("password")){
-                RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
-                dispatcher.forward(req, res);
+                // RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
+                // dispatcher.forward(req, res);
+
+                PrintWriter out = res.getWriter();
+                out.println("login successful.");
                 break; // loop break.
             }
         }

@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <div class="card">
-            <form action="LoginServlet" method="post">
+            <form action="verify" method="post">
                 <div class="form-input">
                     <label for="uname">Username: </label>
                     <input type="text" name="uname" id="uname" required>

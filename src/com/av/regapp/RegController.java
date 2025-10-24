@@ -32,7 +32,7 @@ public class RegController extends HttpServlet{
                 //     showHomePage(request, response);
                 //     break;
                 
-                case "verify":
+                case "/verify":
                     regServices.verify(request, response);
                     break;
                 
