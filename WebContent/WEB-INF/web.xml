@@ -19,7 +19,7 @@
 
     <context-param>
         <param-name>jdbcPassword</param-name>
-        <param-value>MYSQL@2024</param-value>
+        <param-value>root</param-value>
     </context-param>
 
     <servlet>
@@ -32,8 +32,8 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <error-page>
+    <!-- <error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/Error.jsp</location>
-    </error-page>
+    </error-page> -->
 </web-app>

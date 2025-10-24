@@ -7,7 +7,7 @@ public class RegDAO{
     private String jdbcUrl;
     private String jdbcUsername;
     private String jdbcPassword;
-    protected Connection dbConnection;
+    private Connection dbConnection;
 
 
     RegDAO(String jdbcUrl, String jdbcUsername, String jdbcPassword){
@@ -17,18 +17,22 @@ public class RegDAO{
     }
 
     // Connect Database
-    protected void dbConnect() throws SQLException{
+    protected Connection dbConnect() throws SQLException{
         if(dbConnection == null || dbConnection.isClosed()){
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");
+                dbConnection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
+
+                System.out.println("DB connection successful!");
             } catch (Exception e) {
                 throw new SQLException(e);
             }
 
-            dbConnection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
+            
 
         }
+        return dbConnection;
     }
 
     // Disconnect Database

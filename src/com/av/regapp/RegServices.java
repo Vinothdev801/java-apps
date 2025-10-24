@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,43 +16,35 @@ import javax.servlet.ServletException;
 
 public class RegServices extends HttpServlet{
     RegDAO regDAO;
-    Connection connection;
 
-    public void init(){
-        String jdbcUrl = getServletContext().getInitParameter("jdbcUrl");
-        String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
-        String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
-
+    public RegServices(String jdbcUrl, String jdbcUsername, String jdbcPassword){
         regDAO = new RegDAO(jdbcUrl, jdbcUsername, jdbcPassword);
-        connection = regDAO.dbConnection;
     }
 
     protected void verify(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException{
-        String username = req.getParameter("uname");
-        String password = req.getParameter("pass");
+        String uname = req.getParameter("uname");
+        String pass= req.getParameter("pass");
 
-        regDAO.dbConnect();
+        String sql = "SELECT username, password FROM users where username = ?";
 
-        String sql = "SELECT user_name, password FROM users";
+        PrintWriter pw = res.getWriter();
 
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-        System.out.println(resultSet);
+        try(Connection con = regDAO.dbConnect();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, uname);
+                ResultSet rs = ps.executeQuery();
 
-        while (resultSet.next()) {
-            if(resultSet.getString("user_name") == username && password == resultSet.getString("password")){
-                // RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
-                // dispatcher.forward(req, res);
-
-                PrintWriter out = res.getWriter();
-                out.println("login successful.");
-                break; // loop break.
-            }
+                if(rs.next() && rs.getString("password").equals(pass)){
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("Home.jsp");
+                    dispatcher.forward(req, res);
+                }
+                else {    
+                    pw.println("user not found or invalid credentials... ");
+                }
+        } catch (SQLException e) {
+            throw new ServletException(e);
         }
 
-        resultSet.close();
-        statement.close();
-        connection.close();
     } 
     
 }

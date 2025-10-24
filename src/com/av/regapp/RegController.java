@@ -9,8 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegController extends HttpServlet{
+   RegServices regServices;
 
-    private RegServices regServices = new RegServices();
+    @Override
+    public void init() throws ServletException {
+        String jdbcUrl = getServletContext().getInitParameter("jdbcUrl");
+        String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
+        String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
+        regServices = new RegServices(jdbcUrl, jdbcUsername, jdbcPassword);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         doGet(request, response);
     }
@@ -28,16 +36,16 @@ public class RegController extends HttpServlet{
                     showLogin(request, response);
                     break;                   
 
-                // case "/home":
-                //     showHomePage(request, response);
-                //     break;
+                case "/home":
+                    showHomePage(request, response);
+                    break;
                 
                 case "/verify":
                     regServices.verify(request, response);
                     break;
                 
                 default:
-                    showErrorPage(request, response);
+                    showLogin(request, response);
                     break;
             }
         } catch (Exception e){
@@ -55,13 +63,8 @@ public class RegController extends HttpServlet{
         dispatcher.forward(req, res);
     }
 
-    private void showErrorPage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-        RequestDispatcher dispatcher = req.getRequestDispatcher("Error.jsp");
+    private void showHomePage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+        RequestDispatcher dispatcher = req.getRequestDispatcher("Home.jsp");
         dispatcher.forward(req, res);
     }
-
-    // private void showHomePage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-    //     RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
-    //     dispatcher.forward(req, res);
-    // }
 }

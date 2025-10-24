@@ -11,7 +11,7 @@
 <body>
     <center>
         <h1>Error</h1>
-        <h3>error occured</h3>
+        <h3><%=exception.getMessage() %><br/></h3>
     </center>
 </body>
 </html>
