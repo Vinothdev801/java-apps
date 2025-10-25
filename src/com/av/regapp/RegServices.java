@@ -21,30 +21,41 @@ public class RegServices extends HttpServlet{
         regDAO = new RegDAO(jdbcUrl, jdbcUsername, jdbcPassword);
     }
 
-    protected void verify(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException{
+    // Login Verification
+    protected void loginVerify(HttpServletRequest req, HttpServletResponse res) throws SQLException, ServletException, IOException{
         String uname = req.getParameter("uname");
         String pass= req.getParameter("pass");
 
-        String sql = "SELECT username, password FROM users where username = ?";
+        PrintWriter pw = res.getWriter();
+
+        if(regDAO.getData(uname, pass)){
+            RequestDispatcher dispatcher = req.getRequestDispatcher("Home.jsp");
+            dispatcher.forward(req, res);
+        } else {    
+            pw.println("Invalid credentials... ");
+        }
+    } 
+
+    // user Registeration
+    protected void register(HttpServletRequest req, HttpServletResponse res) throws IOException {
+
+        String username = req.getParameter("uname");
+        String password = req.getParameter("pass");
+        String email = req.getParameter("email");
+        String salt = SHAHasing.getSalt();
+        String hashPassword = SHAHasing.hash(password, salt);
+
+        Reg reg = new Reg(username, email, salt, hashPassword);
 
         PrintWriter pw = res.getWriter();
 
-        try(Connection con = regDAO.dbConnect();
-            PreparedStatement ps = con.prepareStatement(sql)) {
-                ps.setString(1, uname);
-                ResultSet rs = ps.executeQuery();
-
-                if(rs.next() && rs.getString("password").equals(pass)){
-                    RequestDispatcher dispatcher = req.getRequestDispatcher("Home.jsp");
-                    dispatcher.forward(req, res);
-                }
-                else {    
-                    pw.println("user not found or invalid credentials... ");
-                }
-        } catch (SQLException e) {
-            throw new ServletException(e);
+        if(regDAO.save(reg)){
+            System.out.println("Data inserted successfully....");
+            pw.println("Registered Successfully");
         }
-
-    } 
+        else{
+            pw.println("Unable to Register.");
+        }
+    }
     
 }

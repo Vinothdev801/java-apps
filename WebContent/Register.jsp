@@ -8,7 +8,7 @@
   <body>
     <div class="container">
       <div class="card">
-        <form action="RegisterServlet" method="post">
+        <form action="reg" method="post">
           <div class="form-input">
             <label for="uname">Username: </label>
             <input type="text" name="uname" id="uname" minlength="5" required />
@@ -22,6 +22,10 @@
           <div class="form-input">
             <label for="pass">Password: </label>
             <input type="password" name="pass" id="pass" />
+          </div>
+
+          <div class="sub">
+            <button type="submit">Register</button>
           </div>
         </form>
       </div>

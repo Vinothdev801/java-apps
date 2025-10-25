@@ -41,7 +41,11 @@ public class RegController extends HttpServlet{
                     break;
                 
                 case "/verify":
-                    regServices.verify(request, response);
+                    regServices.loginVerify(request, response);
+                    break;
+
+                case "/reg":
+                    regServices.register(request, response);
                     break;
                 
                 default:

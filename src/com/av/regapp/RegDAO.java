@@ -29,8 +29,6 @@ public class RegDAO{
                 throw new SQLException(e);
             }
 
-            
-
         }
         return dbConnection;
     }
@@ -40,6 +38,49 @@ public class RegDAO{
         if(dbConnection != null && !dbConnection.isClosed()){
             dbConnection.close();
         }
+    }
+
+    // get data from DB
+    protected boolean getData(String uname, String pass){
+        String sql = "SELECT * FROM users where username = ?";
+
+        try(Connection con = dbConnect();
+            PreparedStatement ps = con.prepareStatement(sql)){
+            
+            ps.setString(1, uname);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+                String hash = SHAHasing.hash(pass, rs.getString("salt"));
+
+                return rs.getString("password").equals(hash);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error Occured: " + e);
+        } 
+
+        return false;
+    }
+
+    // save in DB
+    protected boolean save(Reg reg){
+        String sql = "INSERT INTO users (username, email, password, salt) values (?,?,?,?)";
+
+        try( Connection con = dbConnect();
+             PreparedStatement ps = con.prepareStatement(sql))
+        {
+            ps.setString(1, reg.getUsername());
+            ps.setString(2, reg.getEmail());
+            ps.setString(3, reg.getHash());
+            ps.setString(4, reg.getSalt());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e){
+            System.out.println(e);
+            
+        }
+        return false;
     }
 
 
