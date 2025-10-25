@@ -2,9 +2,6 @@ package com.av.regapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -37,7 +34,8 @@ public class RegServices extends HttpServlet{
     } 
 
     // user Registeration
-    protected void register(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    protected void register(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        res.setContentType("text/html");
 
         String username = req.getParameter("uname");
         String password = req.getParameter("pass");
@@ -51,7 +49,8 @@ public class RegServices extends HttpServlet{
 
         if(regDAO.save(reg)){
             System.out.println("Data inserted successfully....");
-            pw.println("Registered Successfully");
+            pw.println("<p> Registered successfully. <a href='"+ req.getServletPath() + "/login'>Click</a> here to login.");
+            
         }
         else{
             pw.println("Unable to Register.");

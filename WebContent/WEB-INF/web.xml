@@ -9,7 +9,7 @@
 
     <context-param>
         <param-name>jdbcUrl</param-name>
-        <param-value>jdbc:mysql://localhost:3307/reg_app</param-value>
+        <param-value>jdbc:mysql://172.16.17.224:3307/reg_app</param-value>
     </context-param>
 
     <context-param>
