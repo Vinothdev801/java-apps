@@ -1,0 +1,21 @@
+Configuration:
+  status: debug
+  appenders:
+    file:
+      name: FileLogger
+      type: File
+      fileName: logs/app.log
+      layout:
+        type: PatternLayout
+        pattern: "%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c{1} - %m%n"
+  loggers:
+    logger:
+      - name: com.av.regapp
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: FileLogger
+  root:
+    level: info
+    AppenderRef:
+      - ref: FileLogger

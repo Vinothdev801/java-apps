@@ -1,5 +1,5 @@
-D:\Tasks\java-apps\src\com\av\regapp\RegController.java
-D:\Tasks\java-apps\src\com\av\regapp\RegServices.java
-D:\Tasks\java-apps\src\com\av\regapp\RegDAO.java
-D:\Tasks\java-apps\src\com\av\regapp\SHAHasing.java
-D:\Tasks\java-apps\src\com\av\regapp\Reg.java
+D:\Tasks\app\java-apps\src\main\java\com\av\regapp\controller\RegisterationController.java
+D:\Tasks\app\java-apps\src\main\java\com\av\regapp\dao\RegisterationDAO.java
+D:\Tasks\app\java-apps\src\main\java\com\av\regapp\model\Registeration.java
+D:\Tasks\app\java-apps\src\main\java\com\av\regapp\services\RegisterationServices.java
+D:\Tasks\app\java-apps\src\main\java\com\av\regapp\utils\SHAHasing.java

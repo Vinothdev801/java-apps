@@ -1,6 +1,8 @@
-package com.av.regapp;
+package main.java.com.av.regapp.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,15 +10,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class RegController extends HttpServlet{
-   RegServices regServices;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.yaml.snakeyaml.Yaml;
+
+import main.java.com.av.regapp.services.RegisterationServices;
+
+public class RegisterationController extends HttpServlet{
+   RegisterationServices regServices;
+   private static final Logger log = LogManager.getLogger(RegisterationController.class);
 
     @Override
     public void init() throws ServletException {
-        String jdbcUrl = getServletContext().getInitParameter("jdbcUrl");
-        String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
-        String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
-        regServices = new RegServices(jdbcUrl, jdbcUsername, jdbcPassword);
+        // getting and parsing application.yml file
+        String source = getServletContext().getInitParameter("configuration");
+        InputStream input = this.getClass().getClassLoader().getResourceAsStream(source);
+        Yaml yml = new Yaml();
+        Map<String, Object> config = yml.load(input);
+        Map<String, Object> datasource = (Map<String, Object>) config.get("datasource");
+
+
+    
+
+
+        String jdbcUrl = (String) datasource.get("url");
+        String jdbcUsername = (String) datasource.get("username");
+        String jdbcPassword = (String) datasource.get("password");
+        regServices = new RegisterationServices(jdbcUrl, jdbcUsername, jdbcPassword);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -28,7 +48,7 @@ public class RegController extends HttpServlet{
 
         try{
             switch (path) {
-                case "/register":
+                case "/registerForm":
                     showRegisterForm(request, response);
                     break;
 
@@ -44,8 +64,12 @@ public class RegController extends HttpServlet{
                     regServices.loginVerify(request, response);
                     break;
 
-                case "/reg":
+                case "/register":
                     regServices.register(request, response);
+                    break;
+
+                case "/logout":
+                    regServices.logout(request, response);
                     break;
                 
                 default:
@@ -53,6 +77,7 @@ public class RegController extends HttpServlet{
                     break;
             }
         } catch (Exception e){
+            log.error("Got error in controller: {}", e);
             throw new ServletException(e);
         }
     }

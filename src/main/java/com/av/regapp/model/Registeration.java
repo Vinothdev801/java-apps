@@ -1,13 +1,12 @@
-package com.av.regapp;
+package main.java.com.av.regapp.model;
 
-public class Reg {
+public class Registeration {
     private String username;
     private String email;
     private String salt;
     private String hashPassword;
 
-
-    Reg(String username, String email, String salt, String hashPassword){
+    public Registeration(String username, String email, String salt, String hashPassword){
         this.username = username;
         this.email = email;
         this.salt = salt;

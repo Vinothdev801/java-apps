@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,15 @@
     <title>home page</title>
 </head>
 <body>
-    <h1>hello user!</h1>
+    
+    <c:if test="${not empty sessionScope.currentUserName}">
+        <h1>hello ${sessionScope.currentUserName}!</h1>
+        <a href="logout">Logout</a>
+    </c:if>
+
+    <c:if test="${empty sessionScope.currentUserName}">
+        <h2>Kindly Login to Goto the page.</h2>
+        <a href="login">Login</a>
+    </c:if>
 </body>
 </html>

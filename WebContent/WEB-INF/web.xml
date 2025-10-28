@@ -7,33 +7,37 @@
 
     <display-name>User Registeration App</display-name>
 
+    <!-- YAML config file path -->
     <context-param>
-        <param-name>jdbcUrl</param-name>
-        <param-value>jdbc:mysql://172.16.17.224:3307/reg_app</param-value>
+        <param-name>configuration</param-name>
+        <param-value>config/application.yml</param-value>
     </context-param>
 
-    <context-param>
-        <param-name>jdbcUsername</param-name>
-        <param-value>root</param-value>
-    </context-param>
+    <listener>
+        <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+    </listener>
 
+    <!-- Log4j2 YAML -->
     <context-param>
-        <param-name>jdbcPassword</param-name>
-        <param-value>root</param-value>
+        <param-name>log4jConfiguration</param-name>
+        <param-value>WEB-INF/classes/config/log4j2.yml</param-value>
     </context-param>
 
     <servlet>
-        <servlet-name>RegController</servlet-name>
-        <servlet-class>com.av.regapp.RegController</servlet-class>
+        <servlet-name>RegisterationController</servlet-name>
+        <servlet-class>main.java.com.av.regapp.controller.RegisterationController</servlet-class>
     </servlet>
 
+   
+
+
     <servlet-mapping>
-        <servlet-name>RegController</servlet-name>
+        <servlet-name>RegisterationController</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- <error-page>
+    <error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/Error.jsp</location>
-    </error-page> -->
+    </error-page>
 </web-app>

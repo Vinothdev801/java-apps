@@ -8,7 +8,7 @@
   <body>
     <div class="container">
       <div class="card">
-        <form action="reg" method="post">
+        <form action="register" method="post">
           <div class="form-input">
             <label for="uname">Username: </label>
             <input type="text" name="uname" id="uname" minlength="5" required />

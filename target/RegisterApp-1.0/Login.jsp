@@ -22,7 +22,7 @@
                 </div>
             </form>
             <div class="reg">
-                <span>Not a User? <a href="register">SignUp</a></span>
+                <span>Not a User? <a href="registerForm">SignUp</a></span>
             </div>
         </div>
     </div>

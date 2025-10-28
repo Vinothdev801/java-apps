@@ -1,4 +1,4 @@
-package com.av.regapp;
+package main.java.com.av.regapp.utils;
 
 import java.security.MessageDigest;
 import java.security.SecureRandom;
@@ -27,6 +27,7 @@ public class SHAHasing{
 
             return sb.toString();
         } catch (Exception e) {
+            
             e.printStackTrace();
             return null;
         }

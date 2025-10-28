@@ -1,16 +1,24 @@
-package com.av.regapp;
+package main.java.com.av.regapp.dao;
 
 
 import java.sql.*;
 
-public class RegDAO{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import main.java.com.av.regapp.model.Registeration;
+import main.java.com.av.regapp.utils.SHAHasing;
+
+public class RegisterationDAO{
     private String jdbcUrl;
     private String jdbcUsername;
     private String jdbcPassword;
     private Connection dbConnection;
 
+    private static final Logger log = LogManager.getLogger(RegisterationDAO.class);
 
-    RegDAO(String jdbcUrl, String jdbcUsername, String jdbcPassword){
+
+    public RegisterationDAO(String jdbcUrl, String jdbcUsername, String jdbcPassword){
         this.jdbcUrl = jdbcUrl;
         this.jdbcUsername = jdbcUsername;
         this.jdbcPassword = jdbcPassword;
@@ -24,8 +32,9 @@ public class RegDAO{
                 Class.forName("com.mysql.jdbc.Driver");
                 dbConnection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
 
-                System.out.println("DB connection successful!");
+                log.info("DB connection successful!");
             } catch (Exception e) {
+                log.error("DB connection failed: {}", e);
                 throw new SQLException(e);
             }
 
@@ -37,11 +46,12 @@ public class RegDAO{
     protected void dbDisconnect() throws SQLException{
         if(dbConnection != null && !dbConnection.isClosed()){
             dbConnection.close();
+            log.info("DB connection closed.");
         }
     }
 
     // get data from DB
-    protected boolean getData(String uname, String pass){
+    public boolean getData(String uname, String pass){
         String sql = "SELECT * FROM users where username = ?";
 
         try(Connection con = dbConnect();
@@ -53,18 +63,19 @@ public class RegDAO{
             if(rs.next()) {
                 String hash = SHAHasing.hash(pass, rs.getString("salt"));
 
+                log.info("Data fetched successfully.");
                 return rs.getString("password").equals(hash);
             }
             
         } catch (Exception e) {
-            System.out.println("Error Occured: " + e);
+            log.error("Data Fetch Error: {}",e);
         } 
 
         return false;
     }
 
     // save in DB
-    protected boolean save(Reg reg){
+    public boolean save(Registeration reg){
         String sql = "INSERT INTO users (username, email, password, salt) values (?,?,?,?)";
 
         try( Connection con = dbConnect();
@@ -75,9 +86,11 @@ public class RegDAO{
             ps.setString(3, reg.getHash());
             ps.setString(4, reg.getSalt());
 
+            log.info("user data added to DB: {}", reg.getUsername());
+
             return ps.executeUpdate() > 0;
         } catch (Exception e){
-            System.out.println(e);
+            log.error("failed to store user data in DB: {}", e);
             
         }
         return false;

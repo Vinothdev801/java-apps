@@ -1,5 +1,5 @@
-com\av\regapp\Reg.class
-com\av\regapp\RegDAO.class
-com\av\regapp\RegController.class
-com\av\regapp\RegServices.class
-com\av\regapp\SHAHasing.class
+main\java\com\av\regapp\controller\RegisterationController.class
+main\java\com\av\regapp\dao\RegisterationDAO.class
+main\java\com\av\regapp\utils\SHAHasing.class
+main\java\com\av\regapp\model\Registeration.class
+main\java\com\av\regapp\services\RegisterationServices.class
