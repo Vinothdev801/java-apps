@@ -1,21 +1,21 @@
 Configuration:
-  status: debug
-  appenders:
-    file:
-      name: FileLogger
-      type: File
+  status: debug # It sets the Internal Log4j2 logging level.
+
+  Appenders:
+    RollingFile:
+      name: FileAppender
       fileName: logs/app.log
-      layout:
-        type: PatternLayout
-        pattern: "%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %c{1} - %m%n"
-  loggers:
-    logger:
-      - name: com.av.regapp
-        level: debug
-        additivity: false
-        AppenderRef:
-          - ref: FileLogger
-  root:
-    level: info
-    AppenderRef:
-      - ref: FileLogger
+      filePattern: "logs/app-%d{yyyy-MM-dd}-%i.log" # pattern for rolled over files
+      PatternLayout:
+        Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%t] %c{1.} -%msg%n" # Log message pattern
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: 4MB # roll over the log file when it reaches 4MB
+      DefaultRolloverStrategy:
+        max: 5 # keeps maximum of 5 rolled over files.
+
+  Loggers:
+    Root:
+      level: info # It sets the default logging level of all loggers.
+      AppenderRef:
+        - ref: FileAppender # it links the root logger to FileAppender

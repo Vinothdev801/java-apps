@@ -1,5 +1,5 @@
 datasource:
-  url: jdbc:mysql://172.16.17.224:3307/reg_app
+  url: jdbc:mysql://localhost:3307/reg_app
   username: root
-  password: root
+  password: MYSQL@2024
   

@@ -13,23 +13,20 @@
         <param-value>config/application.yml</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
-    </listener>
-
     <!-- Log4j2 YAML -->
     <context-param>
         <param-name>log4jConfiguration</param-name>
-        <param-value>WEB-INF/classes/config/log4j2.yml</param-value>
+        <param-value>classpath:config/log4j2.yml</param-value>
     </context-param>
+
+     <listener>
+        <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>RegisterationController</servlet-name>
         <servlet-class>main.java.com.av.regapp.controller.RegisterationController</servlet-class>
     </servlet>
-
-   
-
 
     <servlet-mapping>
         <servlet-name>RegisterationController</servlet-name>
