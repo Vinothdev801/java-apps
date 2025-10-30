@@ -27,11 +27,9 @@ public class RegisterationController extends HttpServlet{
         InputStream input = this.getClass().getClassLoader().getResourceAsStream(source);
         Yaml yml = new Yaml();
         Map<String, Object> config = yml.load(input);
+        
+        @SuppressWarnings("unchecked")
         Map<String, Object> datasource = (Map<String, Object>) config.get("datasource");
-
-
-    
-
 
         String jdbcUrl = (String) datasource.get("url");
         String jdbcUsername = (String) datasource.get("username");

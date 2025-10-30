@@ -4,7 +4,7 @@ Configuration:
   Appenders:
     RollingFile:
       name: FileAppender
-      fileName: logs/app.log
+      fileName: C:/Tomcat/webapps/Reg/logs/app.log
       filePattern: "logs/app-%d{yyyy-MM-dd}-%i.log" # pattern for rolled over files
       PatternLayout:
         Pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%t] %c{1.} -%msg%n" # Log message pattern
